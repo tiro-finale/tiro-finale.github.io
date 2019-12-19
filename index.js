@@ -1,37 +1,57 @@
-// IP取得
+// Display
 
-// 画面サイズ取得
-document.getElementById("screen size").innerHTML = window.screen.width + "x" + window.screen.height;
+var f = function(components){
 
-// 画面解像度取得
-document.getElementById("resolution").innerHTML = screen.width * window.devicePixelRatio + "x" + screen.height * window.devicePixelRatio + ", " + screen.colorDepth + "[bit]";
+  console.log(components)
 
-// ウィンドウサイズ取得
-document.getElementById("window size").innerHTML = window.innerWidth + "x" + window.innerHeight;
+  // Make elements.
+  var overall = document.createElement("div");
+  overall.id = "components"
+  document.body.appendChild(overall)
 
-// UA取得
-document.getElementById("user agent").innerHTML = navigator.userAgent;
+  // Get FingerPrint.
+  for(var component of components){
 
-// OS取得
-document.getElementById("os").innerHTML = navigator.platform;
+    var key = component["key"]
+    var value = component["value"]
 
-// ブラウザ取得
-var browser = "";
-var ua = navigator.userAgent;
-if(ua.indexOf("FireFox") > -1){
-  browser = "FireFox";
+    // Draw FingerPrint as image.
+    if(key === "canvas"){
+      var image = document.createElement("img")
+      image.id = "image"
+      image.src = value[1].substr("canvas fp:".length)
+      overall.insertBefore(image, overall.firstChild)
+    }
+
+    /*
+     * <div class="box" id=key+data>
+     *   <div class="box-title" id=key>key</div>
+     *   <p id=value>value</div>
+     * </div>
+     */
+    var div = document.createElement("div")
+    div.className = "box"
+    div.id = key
+    var title = document.createElement("div")
+    title.className = "box-title"
+    title.id = key
+    title.innerHTML = key
+    var content = document.createElement("p")
+    content.id = value
+    content.innerHTML = value
+
+    document.getElementById(overall.id).appendChild(div)
+    document.getElementById(key).appendChild(title)
+    document.getElementById(key).appendChild(content)
+  }
 }
-else if(ua.indexOf("Chrome") > -1){
-  browser = "Chrome";
+
+if (window.requestIdleCallback) {
+    requestIdleCallback(function () {
+        Fingerprint2.get(f)
+    })
+} else {
+    setTimeout(function () {
+        Fingerprint2.get(f)
+    }, 500)
 }
-else if(ua.indexOf("Safari") > -1){
-  browser = "Safari";
-}
-else if(ua.indexOf("Edge") > -1){
-  browser = "Edge";
-}
-else{
-  browser = "???";
-}
-browser = navigator.appName;
-document.getElementById("browser").innerHTML = browser;

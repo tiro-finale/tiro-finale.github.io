@@ -16,6 +16,14 @@ h1::after {
      border-bottom: 1px solid black;
 }
 
+img {
+	display: inline-block;
+  max-width: 100%;
+  height: auto;
+	box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.8);
+  text-align:center;
+}
+
 .box {
     margin: 2em 0;
     background: #dcefff;
